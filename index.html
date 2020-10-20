@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title></title>
+</head>
+
+<style>
+
+body{
+    background: url("https://i.ibb.co/pz53sBn/bg.jpg") fixed;
+}
+h1{
+    color: #ac3939;
+}
+i{
+    color: #c65353;
+    font-size: 20px;
+}
+hr{
+    color: #f9ecec;
+}
+#un{
+    color: #862d2d;
+    font-size: 20px;
+}
+#ms{
+    color: #862d2d;
+    font-size: 20px;
+}
+#sub{
+    color: #862d2d;
+    background-color: #f9ecec;
+    border: 2px solid #ac3939;
+}
+.chat{
+    color: #0000ff;
+}
+#mess{
+    color: #a64dff;
+    border: 0px solid black;
+    border-radius: 25px;
+    background-color: #e6e6ff;
+}
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;A}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>
+
+<body>
+
+<center>
+
+<h1> Let's Chat App </h1>
+<i> -by Quickcoder </i>
+<hr>
+
+<iframe name="hidden-iframe" style="display: none"></iframe>
+<form id="chatForm" method="post" target="hidden-iframe" action="https://script.google.com/macros/s/AKfycbwrVB1m8Uu7O-1-ERZ1fqALz7Lv94Rzm1nbuEdepPXKvDsON0mc/exec">
+    <div id="un"> Username: </div>
+    <input type="text" name="Username" maxlength="35">
+    <div id="ms"> Message: </div>
+    <input type="text" name="Message" style="padding-left: 1%; padding-right: 8%">
+    <input id="sub" type="submit" name="Submit" value="Send">
+</form>
+<div class="chat">
+<div id="mess"></div>
+<br>
+<div class="loader"></div><br>
+<div> Loading messages... </div>
+</div>
+</center>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
+<script>
+
+function silentErrorHandler() {return true;}
+window.onerror=silentErrorHandler;
+
+var database = "https://docs.google.com/spreadsheets/d/1BTM3QNzC9W-GoQLzhVAf9QCJZpeh8DhIaq2I2rqb2ZY/edit?usp=sharing";
+var chat = document.querySelector(".chat");
+
+function init(){
+    Tabletop.init({
+        key: database,
+        callback: showMessages,
+        simpleSheet: true
+    })
+}
+
+function showMessages(data, tabletop){
+    chat.textContent = "";
+    for (i in data){
+        var mess = document.createElement("h3");
+        mess.setAttribute("id","mess");
+        mess.textContent = data[i].Username + ": " + data[i].Message + " -" + data[i].Timestamp;
+        chat.insertBefore(mess,document.querySelector("#mess"));
+    }
+}
+
+window.addEventListener("DOMContentLoaded", function(){
+    setInterval(init, 500);
+});
+
+</script>
+
+</body>
+</html>
